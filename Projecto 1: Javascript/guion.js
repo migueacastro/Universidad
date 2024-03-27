@@ -44,9 +44,9 @@ class menu {
 
 // Lista de objetos que usaremos para seleccionar
 listaCategorias = [
-    {'letra':'A','nombre':'Cigarrilos y Bebidas Alcohólicas', 'iva':10/100},
-    {'letra':'B','nombre':'Enlatados y Carnes', 'iva':10/100},
-    {'letra':'C','nombre':'Arroz, Azúcar y Huevos', 'iva':10/100},
+    {'letra':'A','nombre':'Cigarrilos y Bebidas Alcohólicas', 'iva':20/100, 'ventas':0, 'acumulado':0},
+    {'letra':'B','nombre':'Enlatados y Carnes', 'iva':10/100, 'ventas':0, 'acumulado':0},
+    {'letra':'C','nombre':'Arroz, Azúcar y Huevos', 'iva':10/100, 'ventas':0, 'acumulado':0},
 ]
 
 // Variable en la que se almacena el objeto del dicionario anterior seleccionado
@@ -72,6 +72,7 @@ function iniciar() {
     // Asignar evento de mostrar menuCompra a todos los elementos cuya
     // clase sea activarMenuCompra
     document.querySelectorAll('.activarMenuCompra').forEach(elemento => {
+
         elemento.addEventListener('click', () => { 
             // Seleccionar categoria actual
             listaCategorias.forEach(categoria => {
@@ -80,6 +81,8 @@ function iniciar() {
                 }
             });
             document.getElementById('tituloCompraProducto').innerText = `Articulos: ${categoriaActual.nombre}`;
+            document.getElementById('acumulado').innerText = `Acumulado en esta categoría: ${categoriaActual.acumulado}`
+            document.getElementById('ventas').innerText = `Ventas en esta categoría: ${categoriaActual.ventas}`
             menuCompra.mostrar() });
     })
     

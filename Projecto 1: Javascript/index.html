@@ -10,9 +10,9 @@
 <body>
     <h1>Supermercado Maker</h1>
     <section>
-        <section class="seccion" id="inicioM">
+        <section hidden class="seccion" id="inicioM">
             <h2>Inicio</h2>
-            <button id="nuevaVentaB">Nueva Venta</button>
+            <button id="nuevaVentaB">Nuevo Cliente</button>
         </section>
         <section hidden id="categoriasM" class="seccion">
             <h2>Elija la categoría del producto a vender</h2>
@@ -31,22 +31,25 @@
                     <button class="activarMenuCompra" value="C">
                         Arroz, Azúcar y Huevos
                     </button>
-                </li>
-                <li>
-                    <button id="categoriasV">
-                        Volver 
-                    </button>
-                </li>
+                </li>  
             </ul>
+            <button id="categoriasV">
+                Listo
+            </button>
         </section>
         <section class="section" id="productoM">
             <h2 id="tituloCompraProducto"></h2>
 
-            <form action="">
+            <form action="" onsubmit="event.preventDefault()">
                 <input type="number" name="" id="precio" placeholder="Precio">
                 <input type="number" name="" id="cantidad" placeholder="Cantidad">
                 <input type="number" name="" id="" placeholder="Pago">
+                
                 <p>Vuelto: </p>
+                <p>IVA: </p>
+                <p id="acumulado">Vuelto: </p>
+                <p id="ventas">Ventas: </p>
+                <button>Guardar</button>
             </form>
             <button id="productoV">
                 Volver 
