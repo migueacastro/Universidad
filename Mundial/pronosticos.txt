@@ -1,0 +1,5 @@
+España, 5, 7, 12
+Italia, 2, 5, 7
+Portugal, 1, 6, 7
+Francia, 0, 4, 4
+Alemania, 4, 9, 13

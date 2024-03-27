@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Vh7E5DsGtUuiirFyb2QwcPgIUIEMhOp3k6cBj+yG0TcctHcnZiTyFc3ANqBVCFwcnf0O/ZedCQDdznJ2SpiwvQ==",
+  "success": true,
+  "projectFilePath": "/home/miguelc/Desktop/Universidad/Mundial/Mundial.csproj",
+  "expectedPackageFiles": [
+    "/home/miguelc/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.3/microsoft.aspnetcore.app.ref.8.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,15 @@
+/home/miguelc/Desktop/Universidad/Mundial/bin/Debug/net8.0/Mundial
+/home/miguelc/Desktop/Universidad/Mundial/bin/Debug/net8.0/Mundial.deps.json
+/home/miguelc/Desktop/Universidad/Mundial/bin/Debug/net8.0/Mundial.runtimeconfig.json
+/home/miguelc/Desktop/Universidad/Mundial/bin/Debug/net8.0/Mundial.dll
+/home/miguelc/Desktop/Universidad/Mundial/bin/Debug/net8.0/Mundial.pdb
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.GeneratedMSBuildEditorConfig.editorconfig
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.AssemblyInfoInputs.cache
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.AssemblyInfo.cs
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.csproj.CoreCompileInputs.cache
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.sourcelink.json
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.dll
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/refint/Mundial.dll
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.pdb
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/Mundial.genruntimeconfig.cache
+/home/miguelc/Desktop/Universidad/Mundial/obj/Debug/net8.0/ref/Mundial.dll
