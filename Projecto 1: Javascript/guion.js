@@ -1,5 +1,5 @@
 class menu {
-    constructor(id, callerId=null, menuAnterior, ) {
+    constructor(id, callerId=null, menuAnterior=null, backId=null) {
         this.id = id;
         this.menuAnterior = menuAnterior;
         this.elemento = document.getElementById(this.id);
@@ -12,6 +12,14 @@ class menu {
             this.caller = document.getElementById(callerId);
             this.caller.addEventListener('click', () => { this.mostrar();});
         }
+
+        // Asignar escucha a un posible boton de volver
+        if (backId) {
+            document.getElementById(backId).addEventListener('click', () => {
+                menuAnterior.mostrar();
+                this.ocultar();
+            })
+        }
         
 
         // Por defecto, el elemento es ocultado
@@ -21,6 +29,7 @@ class menu {
         this.elemento.setAttribute('hidden','');
     }
 
+    // Ocultara todas las secciones y mostrará el menú actual
     mostrar() {
         document.querySelectorAll('.seccion').forEach( elemento => {
             elemento.setAttribute('hidden', '');
@@ -33,6 +42,17 @@ class menu {
 }
 
 
+// Lista de objetos que usaremos para seleccionar
+listaCategorias = [
+    {'letra':'A','nombre':'Cigarrilos y Bebidas Alcohólicas', 'iva':10/100},
+    {'letra':'B','nombre':'Enlatados y Carnes', 'iva':10/100},
+    {'letra':'C','nombre':'Arroz, Azúcar y Huevos', 'iva':10/100},
+]
+
+// Variable en la que se almacena el objeto del dicionario anterior seleccionado
+var categoriaActual = null;
+
+
 function iniciar() {
     // Aqui asignare la escucha de eventos a cada boton que quiero que muestre
     // un menu determinado.
@@ -43,6 +63,26 @@ function iniciar() {
 
     // Menu Categorias
     let menuCategorias = new menu('categoriasM', 'nuevaVentaB', menuInicio);
+    
+
+    // Menu Compra de Producto
+    let menuCompra = new menu('productoM', null, menuCategorias, 'productoV');
+    
+    
+    // Asignar evento de mostrar menuCompra a todos los elementos cuya
+    // clase sea activarMenuCompra
+    document.querySelectorAll('.activarMenuCompra').forEach(elemento => {
+        elemento.addEventListener('click', () => { 
+            // Seleccionar categoria actual
+            listaCategorias.forEach(categoria => {
+                if (categoria.letra == `${elemento.value}`) {
+                    categoriaActual = categoria;
+                }
+            });
+            document.getElementById('tituloCompraProducto').innerText = `Articulos: ${categoriaActual.nombre}`;
+            menuCompra.mostrar() });
+    })
+    
 }
 
 
