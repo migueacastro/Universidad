@@ -65,14 +65,23 @@ clienteActual = [
         'acumulado': 0.0,
     }
 ]
-
-
+function reiniciarCliente() {
+    for (let i = 0; i < clienteActual.length; i++) {
+        clienteActual[i].acumulado = 0.0;
+        clienteActual[i].cantidad = 0;
+    }
+}
+// Variables globales
+var totalVendido = 0.0;
+var cantidadVendida = 0;
 // Lista de objetos que usaremos para seleccionar
 listaCategorias = [
-    { 'letra': 'A', 'nombre': 'cigarrilos y Bebidas Alcohólicas', 'impuestos': 26 / 100, 'ventas': 0, 'acumulado': 0 },
-    { 'letra': 'B', 'nombre': 'enlatados y Carnes', 'impuestos': 16 / 100, 'ventas': 0, 'acumulado': 0 },
-    { 'letra': 'C', 'nombre': 'arroz, Azúcar y Huevos', 'impuestos': 0, 'ventas': 0, 'acumulado': 0 },
+    { 'letra': 'A', 'nombre': 'cigarrilos y Bebidas Alcohólicas', 'impuestos': 26 / 100, 'ventas': 0.0, 'acumulado': 0 },
+    { 'letra': 'B', 'nombre': 'enlatados y Carnes', 'impuestos': 16 / 100, 'ventas': 0.0, 'acumulado': 0 },
+    { 'letra': 'C', 'nombre': 'arroz, Azúcar y Huevos', 'impuestos': 0, 'ventas': 0.0, 'acumulado': 0 },
 ]
+
+
 
 function actualizarTotal() {
     clienteActual.forEach(objeto => {
@@ -81,36 +90,62 @@ function actualizarTotal() {
     })
     tabla = document.getElementById('tablaProductos');
     let total=0, productos=0;
-    Array.from.tabla.rows.forEach((fila, index) => {
-        if (index != 0) {
-            let categoria = fila.childNodes[4].childNodes[0].innerText;
-            let cantidad = fila.childNodes[1].childNodes[0].value;
-            if (!(cantidad == "")) {
-                subtotal = subtotal.replace("Bs.", "");
-                total += parseFloat(subtotal);
-                productos += parseInt(cantidad);
-                clienteActual.forEach(objeto => {
-                if (objeto.letra == categoria) {
-                    objeto.acumulado += subtotal;
-                    objeto.cantidad += cantidad;
-                }
-            })
-            }   
+    for (let i = 1; i < tabla.rows.length - 1; i++) {
+        let categoria = document.getElementById("categoria"+i).value;
+        let subtotal = document.getElementById("subtotal"+i).innerText;
+        let cantidad = document.getElementById("cantidad"+i).value;
+        if (cantidad == "") {
+            continue;
         }
+        subtotal = subtotal.replace("Bs.", "");
+        total += parseFloat(subtotal);
+        productos += parseInt(cantidad);
+        clienteActual.forEach(objeto => {
+            if (objeto.letra == categoria) {
+                objeto.acumulado += parseFloat(subtotal);
+                objeto.cantidad += parseInt(cantidad);
+            }
+        })
         
-        
-    })
+
+    }
     // Actualizar objeto de usuario
-    
+    let saldo = parseFloat(document.getElementById("pagarI").value).toFixed(2);
+    let vuelto = parseFloat(saldo - total).toFixed(2);
     document.getElementById("total").innerText = "Total: "+total.toFixed(2)+"Bs.";
     document.getElementById("productos").innerText = "Productos: "+productos;
+    document.getElementById("totalC").innerText = "Total: "+total.toFixed(2)+"Bs.";
+    document.getElementById("productosC").innerText = "Productos: "+productos;
+    document.getElementById("saldoC").innerText = "Saldo: "+ saldo + "Bs.";
+    document.getElementById("vueltoC").innerText = "Vuelto: "+ vuelto + "Bs.";
 }
+
+
 
 function eliminarFila(elemento) {
     // Boton --> Celda --> Fila
+    let tabla = document.getElementById('tablaProductos').rows;
+    let longitudTabla = tabla.length;
     let fila = elemento.parentNode.parentNode;
-    // Acceer a la tabla y eliminar el hijo que sea esta fila
-    fila.parentNode.removeChild(fila);
+    let posicion;
+     // Acceder a la tabla y eliminar el hijo que sea esta fila
+    for (let i = 0; i < longitudTabla; i++) {
+        if (tabla[i] == fila) {
+            posicion = i;
+            fila.parentNode.removeChild(fila);
+        }
+    }
+    // Iterar desde la posicion establecida hasta el fin de la tabla (Habiendole quitado la fila) 
+    for (let i = posicion; i < longitudTabla -1; i++) {
+        document.getElementById("precio"+i).id = "precio"+(i-1);
+        document.getElementById("cantidad"+i).id = "cantidad"+(i-1);
+        document.getElementById("categoria"+i).id = "categoria"+(i-1);
+        document.getElementById("impuestos"+i).id = "impuestos"+(i-1);
+        document.getElementById("subtotal"+i).id = "subtotal"+(i-1);
+        document.getElementById("eliminar"+i).id = "eliminar"+(i-1);
+    }
+   
+    
     actualizarTotal();
 
 }
@@ -231,17 +266,20 @@ function agregarFila() {
 }
 
 function pagar() {
-    let pago = document.getElementById("pagarI").value;
-    let total= document.getElementById("total").innerText.replace("Total:","");
-    pago = parseFloat(pago);
-    total = parseFloat(total.replace("Bs",""));
-    let vuelto = ((pago - total).toFixed(2)) + "Bs.";
-    if (pago < total) {
-        alert("Saldo insuficiente.");
+    for (let i = 0; i < listaCategorias.length; i++) {
+        listaCategorias[i].acumulado += parseFloat(clienteActual[i].acumulado);
+        listaCategorias[i].ventas += parseInt(clienteActual[i].cantidad);
+        totalVendido += parseFloat(clienteActual[i].acumulado);
+        cantidadVendida += parseInt(clienteActual[i].cantidad);
     }
-    else {
-        alert("Vuelto: " + vuelto);
+    
+    let tablaInformacion = document.getElementById('informacionT');
+    for (let i = 0; i < listaCategorias.length; i++) {
+        document.getElementById("acumulado" + listaCategorias[i].letra).innerText = parseFloat(listaCategorias[i].acumulado).toFixed(2) + "Bs."; 
+        document.getElementById("cantidad" + listaCategorias[i].letra).innerText = listaCategorias[i].ventas; 
     }
+    document.getElementById("acumuladoT").innerText = parseFloat(totalVendido).toFixed(2) + "Bs.";
+    document.getElementById("cantidadT").innerText = cantidadVendida;
     document.getElementById('cerrarCajaB').removeAttribute('hidden');
 }
 
@@ -264,19 +302,62 @@ function iniciar() {
     // Menu abrir caja, cuando aparece, ejecuta la funcion para ocultar el boton "Cerrar caja"
     let menuAbrirCaja = new menu('cajaM', 'cerrarCajaB', null, null, function () {
         document.getElementById('cerrarCajaB').setAttribute('hidden', '');
+        document.getElementById('informacionS').setAttribute('hidden', '');
     });
     menuAbrirCaja.mostrar();
 
     // Menu inicio , cuando aparece, ejecuta la funcion para mostrar el boton "Cerrar caja"
-    let menuInicio = new menu('inicioM', 'abrirCajaB', menuAbrirCaja, null)
+    let menuInicio = new menu('inicioM', 'abrirCajaB', menuAbrirCaja, null, ()=> {
+        document.getElementById('informacionS').removeAttribute('hidden');
+        document.getElementById('cerrarCajaB').removeAttribute('hidden');
+    })
 
-    let menuVenta = new menu('ventaM', 'nuevaVentaB', menuInicio);
+    let menuVenta = new menu('ventaM', 'nuevaVentaB', menuInicio, null, ()=> {
+        document.getElementById('confirmarM').setAttribute('hidden', '');;
+        document.getElementById('saldoInsuficienteM').setAttribute('hidden', '');
+    });
     document.getElementById('añadirProducto').addEventListener('click', () => {
         agregarFila();
     }
     );
-    document.getElementById('pagarB').addEventListener('click', function () {
-        pagar()
+
+    let menuDialogo = new menu('dialogoM', 'pagarB', menuVenta, 'volverB', () => {
+        let saldo = document.getElementById('pagarI').value;
+        let total = document.getElementById('total').innerText.replace('Total:', '');
+        total = total.replace('Bs.', '');
+        if (parseFloat(total) > parseFloat(saldo)) {
+            document.getElementById('confirmarM').setAttribute('hidden', '');
+            document.getElementById('saldoInsuficienteM').removeAttribute('hidden');
+        }
+        else {
+            document.getElementById('confirmarM').removeAttribute('hidden');
+            document.getElementById('saldoInsuficienteM').setAttribute('hidden', '');
+        }
+    });
+    document.getElementById('pagarI').addEventListener('keyup', ()=> {
+        let saldo = document.getElementById('pagarI').value;
+        let botonPagar = document.getElementById('pagarB');
+        let total = document.getElementById('total').innerText.replace('Total:', '');
+        total = total.replace('Bs.', '');
+        if (!(isNaN(saldo) || saldo == "" || saldo == 0) && (parseFloat(total) > 0)) {
+            botonPagar.removeAttribute('hidden');
+        } else {
+            botonPagar.setAttribute('hidden', true);
+        }
+        actualizarTotal();
+    })
+    document.getElementById('pagarB').addEventListener('click', ()=>{
+        menuDialogo.mostrar();
+    })
+
+    document.getElementById('confirmarB').addEventListener('click', ()=> {
+        document.getElementById('confirmarM').setAttribute('hidden', '');
+        document.getElementById('saldoInsuficienteM').setAttribute('hidden', '');
+        pagar();
+        reiniciarTabla();
+        reiniciarCliente();
+        menuDialogo.ocultar();
+        menuInicio.mostrar();
     });
 }
 
