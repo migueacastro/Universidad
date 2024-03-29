@@ -14,47 +14,52 @@
             <h2>Inicio</h2>
             <button id="nuevaVentaB">Nuevo Cliente</button>
         </section>
-        <section hidden id="categoriasM" class="seccion">
-            <h2>Elija la categoría del producto a vender</h2>
-            <ul>
-                <li>
-                    <button class="activarMenuCompra" value="A">
-                        Cigarrilos y Bebidas Alcohólicas
-                    </button>
-                </li>
-                <li>
-                    <button class="activarMenuCompra" value="B">
-                        Enlatados y Carnes
-                    </button>
-                </li>
-                <li>
-                    <button class="activarMenuCompra" value="C">
-                        Arroz, Azúcar y Huevos
-                    </button>
-                </li>  
-            </ul>
-            <button id="categoriasV">
-                Listo
-            </button>
+       <section class="seccion" id="cajaM">
+            <button id="abrirCajaB">Abrir caja</button>
         </section>
-        <section class="section" id="productoM">
-            <h2 id="tituloCompraProducto"></h2>
+        <section class="seccion" id="ventaM" style="justify-content: center;">
+            <form onsubmit="event.preventDefault();">
+                <table id="tablaProductos">
+                    <thead>
+                        <td>
+                            Precio
+                        </td>
+                        <td>
+                            Cantidad
+                        </td>
+                        <td>
+                            Categoria
+                        </td>
+                        <td>
+                            Impuestos
+                        </td>
+                        <td>
+                            Subtotal
+                        </td>
+                        <td>
 
-            <form action="" onsubmit="event.preventDefault()">
-                <input type="number" name="" id="precio" placeholder="Precio">
-                <input type="number" name="" id="cantidad" placeholder="Cantidad">
-                <input type="number" name="" id="" placeholder="Pago">
-                
-                <p>Vuelto: </p>
-                <p>IVA: </p>
-                <p id="acumulado">Vuelto: </p>
-                <p id="ventas">Ventas: </p>
-                <button>Guardar</button>
+                        </td>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                    </tbody>
+                </table>
+                <div>
+                    <button id="añadirProducto">
+                        Nuevo producto
+                    </button>
+                </div>
+                <button id="pagarB"style="margin-top: 70px;">
+                    Pagar
+                </button>
             </form>
-            <button id="productoV">
-                Volver 
-            </button>
+            
         </section>
+        <section style="display: flex; flex-direction: row; margin-top: 50dvh; justify-content: center;">
+            <button id="cerrarCajaB">Cerrar caja</button>
+            <button>Mas información</button>
+        </section>
+        
     </section>
 </body>
 </html>
