@@ -273,10 +273,9 @@ function agregarFila() {
           }
         });
         subtotal = parseFloat(precio.value) * parseFloat(cantidad.value);
-        subtotal += parseFloat(subtotal) * parseFloat(impuestos);
         celda4.innerText = parseFloat(impuestos * subtotal).toFixed(2) + "Bs.";
+        subtotal += parseFloat(subtotal) * parseFloat(impuestos);
         celda5.innerText = subtotal.toFixed(2) + "Bs.";
-
         actualizarTotal();
       };
 
@@ -333,7 +332,6 @@ function reiniciarTabla() {
   // Despues de borrar todas las filas de la tabla, agregar una fila vacia
   agregarFila();
   actualizarTotal();
-  
 }
 
 function iniciar() {
@@ -379,7 +377,6 @@ function iniciar() {
     agregarFila();
   });
 
-  
   let menuDialogo = new menu("dialogoM", "pagarB", menuVenta, "volverB", () => {
     let saldo = document.getElementById("pagarI").value;
     let total = document
