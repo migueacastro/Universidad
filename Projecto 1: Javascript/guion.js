@@ -76,24 +76,31 @@ var totalVendido = 0.0;
 var cantidadVendida = 0;
 // Lista de objetos que usaremos para seleccionar
 listaCategorias = [
-    { 'letra': 'A', 'nombre': 'cigarrilos y Bebidas Alcohólicas', 'impuestos': 26 / 100, 'ventas': 0.0, 'acumulado': 0 },
-    { 'letra': 'B', 'nombre': 'enlatados y Carnes', 'impuestos': 16 / 100, 'ventas': 0.0, 'acumulado': 0 },
-    { 'letra': 'C', 'nombre': 'arroz, Azúcar y Huevos', 'impuestos': 0, 'ventas': 0.0, 'acumulado': 0 },
+    { 'letra': 'A', 'nombre': 'cigarrilos y Bebidas Alcohólicas', 'impuestos': 26 / 100, 'cantidad': 0.0, 'acumulado': 0 },
+    { 'letra': 'B', 'nombre': 'enlatados y Carnes', 'impuestos': 16 / 100, 'cantidad': 0.0, 'acumulado': 0 },
+    { 'letra': 'C', 'nombre': 'arroz, Azúcar y Huevos', 'impuestos': 0, 'cantidad': 0.0, 'acumulado': 0 },
 ]
 
 
 
 function actualizarTotal() {
+
+    // Reiniciar valores de las categorias del cliente actual
     clienteActual.forEach(objeto => {
         objeto.acumulado = 0.0;
         objeto.cantidad = 0;
     })
+
+    // Iterar por cada fila
     tabla = document.getElementById('tablaProductos');
     let total=0, productos=0;
-    for (let i = 1; i < tabla.rows.length - 1; i++) {
+    for (let i = 0; i < tabla.rows.length -1; i++) {
+
+        // Recuperar valores 
         let categoria = document.getElementById("categoria"+i).value;
         let subtotal = document.getElementById("subtotal"+i).innerText;
         let cantidad = document.getElementById("cantidad"+i).value;
+        // Ignorar si la cantidad esta vacia
         if (cantidad == "") {
             continue;
         }
@@ -268,7 +275,7 @@ function agregarFila() {
 function pagar() {
     for (let i = 0; i < listaCategorias.length; i++) {
         listaCategorias[i].acumulado += parseFloat(clienteActual[i].acumulado);
-        listaCategorias[i].ventas += parseInt(clienteActual[i].cantidad);
+        listaCategorias[i].cantidad += parseInt(clienteActual[i].cantidad);
         totalVendido += parseFloat(clienteActual[i].acumulado);
         cantidadVendida += parseInt(clienteActual[i].cantidad);
     }
@@ -276,7 +283,7 @@ function pagar() {
     let tablaInformacion = document.getElementById('informacionT');
     for (let i = 0; i < listaCategorias.length; i++) {
         document.getElementById("acumulado" + listaCategorias[i].letra).innerText = parseFloat(listaCategorias[i].acumulado).toFixed(2) + "Bs."; 
-        document.getElementById("cantidad" + listaCategorias[i].letra).innerText = listaCategorias[i].ventas; 
+        document.getElementById("cantidad" + listaCategorias[i].letra).innerText = listaCategorias[i].cantidad; 
     }
     document.getElementById("acumuladoT").innerText = parseFloat(totalVendido).toFixed(2) + "Bs.";
     document.getElementById("cantidadT").innerText = cantidadVendida;
@@ -291,6 +298,7 @@ function reiniciarTabla() {
     for (let i = longitudTabla - 1; i > 0; i--) {
         tabla.deleteRow(i);
     }
+    document.getElementById('pagarI').value = "";
     actualizarTotal();
 }
 
