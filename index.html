@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="guion.js"></script>
+    <link rel="stylesheet" href="estilos.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documento</title>
+  </head>
+
+  <body>
+    <h1 class="titulo">Supermercado Maker</h1>
+    <section class="espacio">
+      <section class="seccion" id="inicioM">
+        <h2>Inicio</h2>
+        <button id="nuevaVentaB">Nuevo Cliente</button>
+      </section>
+      <section class="seccion" id="cajaM">
+        <button id="abrirCajaB">Abrir caja</button>
+      </section>
+      <section class="caja-secundaria">
+        <section class="seccion" id="ventaM">
+          <table id="tablaProductos">
+            <thead>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Categoria</th>
+              <th>Impuestos</th>
+              <th>Subtotal</th>
+              <th></th>
+            </thead>
+            <tbody></tbody>
+          </table>
+
+          <button id="añadirProducto">Nuevo producto</button>
+
+          <div id="informacion-pago">
+            <h4 id="productos">Productos: 0</h4>
+            <h4 id="total">Total: 0Bs.</h4>
+            <input id="pagarI" type="number" placeholder="Saldo" />
+            <div id="acciones-pagarM">
+              <button id="pagarB">Pagar</button>
+              <button id="irInicioB">Volver a Inicio</button>
+            </div>
+          </div>
+        </section>
+        <section id="dialogoM" class="seccion">
+          <section id="confirmarM">
+            <h2>Confirmar venta</h2>
+
+            <h3 id="productosC">Productos:</h3>
+            <h3 id="totalC">Total:</h3>
+            <h3 id="saldoC">Saldo:</h3>
+            <h3 id="vueltoC">Vuelto:</h3>
+            <div id="acciones-pagarM">
+              <button id="confirmarB">Confirmar</button>
+              <button id="volverB2">Volver</button>
+            </div>
+          </section>
+          <section id="saldoInsuficienteM">
+            <h2>Saldo insuficiente</h2>
+            <button id="volverB">Volver</button>
+          </section>
+        </section>
+      </section>
+
+      <section id="informacionS">
+        <table id="informacionT">
+          <thead>
+            <th>Categoria</th>
+            <th>Acumulado</th>
+            <th>Ventas</th>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td id="acumuladoA">0.0Bs.</td>
+              <td id="cantidadA">0</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td id="acumuladoB">0.0Bs.</td>
+              <td id="cantidadB">0</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td id="acumuladoC">0.0Bs.</td>
+              <td id="cantidadC">0</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td id="acumuladoT">0.0Bs.</td>
+              <td id="cantidadT">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <button id="cerrarCajaB">Cerrar caja</button>
+      </section>
+    </section>
+  </body>
+</html>

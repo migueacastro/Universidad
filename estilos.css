@@ -1,0 +1,140 @@
+body {
+  margin-right: 20dvh;
+  margin-left: 20dvh;
+  
+}
+
+h1, h2, h3, h4,p {
+  color:rgb(66, 66, 66);
+}
+* {
+  flex-direction: column;
+  font-family: Helvetica;
+}
+table,
+th,
+td {
+  td,
+  th {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  border-spacing: 0;
+  
+}
+table {
+  box-shadow: 0px 2px 5px rgba(119, 119, 119, 0.438);
+  margin: 15px;
+}
+thead {
+  background-color: gray;
+  color: white;
+}
+tbody {
+  background-color: rgb(245, 245, 245);
+  
+}
+
+.titulo {
+  text-align: center;
+}
+.seccion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+button {
+  width: fit-content;
+  padding: 10px;
+  border-radius: 50px;
+  margin: 10px;
+  border: 1px gray solid;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  background-color: gray;
+  box-shadow: 0px 2px 5px rgba(119, 119, 119, 0.438);
+  font-size: 17px;
+}
+input {
+  box-shadow: 0px 2px 5px rgba(119, 119, 119, 0.438);
+}
+button:hover, input:hover, select:hover {
+  transition: .2s ease-in-out;
+  transform: scale(1.1);
+  box-shadow: 0px 3px 5px rgba(119, 119, 119, 0.438);
+}
+.boton-eliminar {
+  background: none !important;
+  border: none;
+  box-shadow:none;
+  color: gray;
+}
+.boton-eliminar:hover {
+  box-shadow: none !important;
+  color: red;
+}
+
+.espacio {
+  display: flex;
+  justify-content: center;
+  padding-top: 10dvh;
+}
+
+input,
+select {
+  width: 15dvh;
+  border-radius: 5px;
+  border: 1px gray solid;
+  background-color: white;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.caja-secundaria {
+  min-height: 30dvh;
+}
+
+#pagarB {
+  display: none;
+  margin-right: 15px;
+}
+#informacionT {
+  margin-top: 70px;
+  margin-bottom: 10px;
+  margin-left: 25dvh;
+  margin-right: 25dvh;
+}
+
+#informacion-pago, #dialogoM {
+  width: fit-content;
+  padding-right: 10dvh;
+  padding-left: 10dvh;
+  padding-bottom: 1dvh;
+  background-color: rgb(245, 245, 245);
+  border-radius: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 25px;
+  box-shadow: 0px 3px 5px rgba(119, 119, 119, 0.438);
+}
+
+
+#acciones-pagarM {
+  margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    margin-right: auto;
+
+}
+
+
+
+#confirmarB {
+  margin-right: 10px;
+}
