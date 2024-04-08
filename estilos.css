@@ -138,3 +138,7 @@ select {
 #confirmarB {
   margin-right: 10px;
 }
+
+#cerrarCajaB {
+  background-color: rgb(230, 67, 67);
+}

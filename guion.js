@@ -1,3 +1,9 @@
+// Variables globales
+var totalVendido = 0.0,
+  cantidadVendida = 0,
+  tabla,
+  pagarI;
+
 class menu {
   // id, id del boton que invoca al menu, objeto del menu anterior, id del boto para volver a ese menu anterior, funcion ejecutada al mostrar
   // Los 4 atributos después de id son opcionales
@@ -12,8 +18,6 @@ class menu {
     this.menuAnterior = menuAnterior;
     this.elemento = document.getElementById(this.id);
     this.specialFunction = specialFunction;
-
-    let esteElemento = this.elemento;
 
     // Asignar escucha para mostrar menu al presionar boton en caso de que
     // no sea nulo.
@@ -45,7 +49,7 @@ class menu {
       this.specialFunction();
     }
 
-    document.querySelectorAll(".seccion").forEach((elemento) => {
+    document.querySelectorAll(".seccion").forEach(elemento => {
       elemento.style.display = "none";
     });
     this.elemento.style.display = "flex";
@@ -60,28 +64,20 @@ clienteActual = [
   {
     letra: "A",
     cantidad: 0.0,
-    acumulado: 0.0,
+    acumulado: 0.0
   },
   {
     letra: "B",
     cantidad: 0.0,
-    acumulado: 0.0,
+    acumulado: 0.0
   },
   {
     letra: "C",
     cantidad: 0.0,
-    acumulado: 0.0,
-  },
-];
-function reiniciarCliente() {
-  for (let i = 0; i < clienteActual.length; i++) {
-    clienteActual[i].acumulado = 0.0;
-    clienteActual[i].cantidad = 0;
+    acumulado: 0.0
   }
-}
-// Variables globales
-var totalVendido = 0.0;
-var cantidadVendida = 0;
+];
+
 // Lista de objetos que usaremos para seleccionar
 listaCategorias = [
   {
@@ -89,24 +85,25 @@ listaCategorias = [
     nombre: "cigarrilos y Bebidas Alcohólicas",
     impuestos: 26 / 100,
     cantidad: 0.0,
-    acumulado: 0,
+    acumulado: 0
   },
   {
     letra: "B",
     nombre: "enlatados y Carnes",
     impuestos: 16 / 100,
     cantidad: 0.0,
-    acumulado: 0,
+    acumulado: 0
   },
   {
     letra: "C",
     nombre: "arroz, Azúcar y Huevos",
     impuestos: 0,
     cantidad: 0.0,
-    acumulado: 0,
-  },
+    acumulado: 0
+  }
 ];
 
+// Actualiza la tabla de acumulados
 function actualizarCaja() {
   for (let i = 0; i < listaCategorias.length; i++) {
     document.getElementById("acumulado" + listaCategorias[i].letra).innerText =
@@ -118,89 +115,86 @@ function actualizarCaja() {
     parseFloat(totalVendido).toFixed(2) + "Bs.";
   document.getElementById("cantidadT").innerText = cantidadVendida;
 }
+
 function actualizarTotal() {
   // Reiniciar valores de las categorias del cliente actual
-  clienteActual.forEach((objeto) => {
+  clienteActual.forEach(objeto => {
     objeto.acumulado = 0.0;
     objeto.cantidad = 0;
   });
 
   // Iterar por cada fila
-  tabla = document.getElementById("tablaProductos");
   let total = 0,
-    productos = 0;
+    productos = 0,
+    impuestos = 0,
+    base = 0;
   for (let i = 0; i < tabla.rows.length - 1; i++) {
     // Recuperar valores
     let categoria = document.getElementById("categoria" + i).value;
     let subtotal = document.getElementById("subtotal" + i).innerText;
     let cantidad = document.getElementById("cantidad" + i).value;
+    let impuesto = document.getElementById("impuestos" + i).innerText;
     // Ignorar si la cantidad esta vacia
     if (cantidad == "") {
       continue;
     }
+    // Actualizar valores de los elementos de vistas previas al modificar compra
     subtotal = subtotal.replace("Bs.", "");
+    impuesto = impuesto.replace("Bs.", "");
+    base += parseFloat(subtotal) - parseFloat(impuesto);
+    impuestos += parseFloat(impuesto);
     total += parseFloat(subtotal);
     productos += parseInt(cantidad);
-    clienteActual.forEach((objeto) => {
+    clienteActual.forEach(objeto => {
       if (objeto.letra == categoria) {
+        // Actualizar acumuladores de el cliente actual
         objeto.acumulado += parseFloat(subtotal);
         objeto.cantidad += parseInt(cantidad);
       }
     });
   }
-  // Actualizar objeto de usuario
+  // Actualizar valores de el menu de confirmar compra
   let saldo = parseFloat(document.getElementById("pagarI").value).toFixed(2);
   let vuelto = parseFloat(saldo - total).toFixed(2);
   document.getElementById("total").innerText =
-    "Total: " + total.toFixed(2) + "Bs.";
+    "Monto Total: " + total.toFixed(2) + "Bs.";
   document.getElementById("productos").innerText = "Productos: " + productos;
   document.getElementById("totalC").innerText =
-    "Total: " + total.toFixed(2) + "Bs.";
+    "Monto Total: " + total.toFixed(2) + "Bs.";
   document.getElementById("productosC").innerText = "Productos: " + productos;
   document.getElementById("saldoC").innerText = "Saldo: " + saldo + "Bs.";
   document.getElementById("vueltoC").innerText = "Vuelto: " + vuelto + "Bs.";
+  document.getElementById("impuestosC").innerText =
+    "Impuestos: " + impuestos.toFixed(2) + "Bs.";
+  document.getElementById("impuestos").innerText =
+    "Impuestos: " + impuestos.toFixed(2) + "Bs.";
+  document.getElementById("baseC").innerText =
+    "Monto Base: " + base.toFixed(2) + "Bs.";
+  document.getElementById("base").innerText =
+    "Monto Base: " + base.toFixed(2) + "Bs.";
+}
+// Reestablece el acumulado de cada categoria para el cliente actual
+function reiniciarCliente() {
+  for (let i = 0; i < clienteActual.length; i++) {
+    clienteActual[i].acumulado = 0.0;
+    clienteActual[i].cantidad = 0;
+  }
 }
 
-function eliminarFila(elemento) {
-  // Boton --> Celda --> Fila
-  let tabla = document.getElementById("tablaProductos").rows;
-  let longitudTabla = tabla.length;
-  let fila = elemento.parentNode.parentNode;
-  let posicion;
-  // Acceder a la tabla y eliminar el hijo que sea esta fila
-  for (let i = 0; i < longitudTabla; i++) {
-    if (tabla[i] == fila) {
-      posicion = i;
-      fila.parentNode.removeChild(fila);
-    }
-  }
-  // Iterar desde la posicion establecida hasta el fin de la tabla (Habiendole quitado la fila)
-  for (let i = posicion; i < longitudTabla - 1; i++) {
-    document.getElementById("precio" + i).id = "precio" + (i - 1);
-    document.getElementById("cantidad" + i).id = "cantidad" + (i - 1);
-    document.getElementById("categoria" + i).id = "categoria" + (i - 1);
-    document.getElementById("impuestos" + i).id = "impuestos" + (i - 1);
-    document.getElementById("subtotal" + i).id = "subtotal" + (i - 1);
-    document.getElementById("eliminar" + i).id = "eliminar" + (i - 1);
-  }
-
-  actualizarTotal();
-}
 function agregarFila() {
-  tabla = document.getElementById("tablaProductos");
   longitudTabla = tabla.rows.length;
   for (let i = 0; i < longitudTabla; i++) {
     // Agregar elemento hijo antes del footer de la tabla
     if (i == longitudTabla - 1) {
       let fila = tabla.tBodies[0].insertRow(i);
 
+      
       // Crear celda con el input precio
       let celda1 = fila.insertCell(0);
       let precio = document.createElement("input");
       precio.min = 0;
       precio.type = "number";
       precio.id = "precio" + i;
-
       // Crear celda con el input cantidad
       let celda2 = fila.insertCell(1);
       let cantidad = document.createElement("input");
@@ -215,9 +209,9 @@ function agregarFila() {
       categoria.insertAdjacentHTML(
         "beforeend",
         `
-                <option value="A">Rubro A</option>
-                <option value="B">Rubro B</option>
-                <option value="C">Rubro C</option>
+                <option value="A">Categoria A</option>
+                <option value="B">Categoria B</option>
+                <option value="C">Categoria C</option>
             `
       );
       // Crear un ciclo que asigne las opciones disponibles
@@ -247,7 +241,7 @@ function agregarFila() {
         // Establecer el dato como nulo, y luego terminar la funcion
         if (isNaN(precio.value) || isNaN(cantidad.value)) {
           precio.value = isNaN(precio.value) ? null : precio.value;
-          cantidad.value = isNaN(cantidad.value) ? null : cantidad.value;
+          cantidad.value = isNaN(cantidad.value) ? null : cantidad.value; // Validar si alguno de los dos es nulo
 
           // Reestablecer los valores de Impuestos y Subtotal
           celda4.innerText = "0Bs.";
@@ -255,6 +249,7 @@ function agregarFila() {
           actualizarTotal();
           return;
         } else if (precio.value == "" || cantidad.value == "") {
+          // Validar si alguno de los dos esta vacio
           precio.value = precio.value == "" ? null : precio.value;
           cantidad.value = cantidad.value == "" ? null : cantidad.value;
 
@@ -267,7 +262,7 @@ function agregarFila() {
         // Iterar en las categorias hasta que la letra coincida con el valor de
         // la categoria seleccionada
         let impuestos;
-        listaCategorias.forEach((elemento) => {
+        listaCategorias.forEach(elemento => {
           if (elemento.letra == categoria.value) {
             impuestos = elemento.impuestos;
           }
@@ -280,18 +275,19 @@ function agregarFila() {
       };
 
       // Agregar escuchadores de eventos a los elementos de la fila
-      precio.addEventListener("keyup", () => {
+      precio.addEventListener("input", () => {
         actualizarDatosFila();
       });
-      cantidad.addEventListener("keyup", () => {
+      cantidad.addEventListener("input", () => {
         actualizarDatosFila();
       });
-      categoria.addEventListener("change", () => {
+      categoria.addEventListener("input", () => {
         actualizarDatosFila();
       });
 
       // Agregar elemetos a la fila
       celda1.appendChild(precio);
+      celda1.appen
       celda2.appendChild(cantidad);
       celda3.appendChild(categoria);
       celda4.innerText = "0Bs";
@@ -300,9 +296,36 @@ function agregarFila() {
     }
   }
 }
+function eliminarFila(elemento) {
+  // Boton --> Celda --> Fila
+  let longitudTabla = tabla.length;
+  let fila = elemento.parentNode.parentNode;
+  let posicion;
+  // Acceder a la tabla y eliminar el hijo que sea esta fila
+  for (let i = 0; i < longitudTabla; i++) {
+    if (tabla.rows[i] == fila) {
+      posicion = i;
+      fila.parentNode.removeChild(fila);
+    }
+  }
+  // Iterar desde la posicion establecida hasta el fin de la tabla (Habiendole quitado la fila)
+  for (let i = posicion; i < longitudTabla - 1; i++) {
+    // Actualizar identificadores para que corresponadn con su posicion en la tabla actual
+    document.getElementById("precio" + i).id = "precio" + (i - 1);
+    document.getElementById("cantidad" + i).id = "cantidad" + (i - 1);
+    document.getElementById("categoria" + i).id = "categoria" + (i - 1);
+    document.getElementById("impuestos" + i).id = "impuestos" + (i - 1);
+    document.getElementById("subtotal" + i).id = "subtotal" + (i - 1);
+    document.getElementById("eliminar" + i).id = "eliminar" + (i - 1);
+  }
 
+  actualizarTotal();
+}
+
+// Por cada elemento de la lista de categorias, reestablecer sus acumuladores
+// y actualizar los valores de la caja
 function reiniciarCaja() {
-  listaCategorias.forEach((elemento) => {
+  listaCategorias.forEach(elemento => {
     elemento.acumulado = 0.0;
     elemento.cantidad = 0;
   });
@@ -313,8 +336,10 @@ function reiniciarCaja() {
 
 function pagar() {
   for (let i = 0; i < listaCategorias.length; i++) {
+    // Acumuladores de categoria
     listaCategorias[i].acumulado += parseFloat(clienteActual[i].acumulado);
     listaCategorias[i].cantidad += parseInt(clienteActual[i].cantidad);
+    // Acumuladores de caja
     totalVendido += parseFloat(clienteActual[i].acumulado);
     cantidadVendida += parseInt(clienteActual[i].cantidad);
   }
@@ -323,7 +348,7 @@ function pagar() {
 
 function reiniciarTabla() {
   // Eliminar todas las filas de la tabla de productos
-  let tabla = document.getElementById("tablaProductos");
+
   let longitudTabla = tabla.rows.length;
   for (let i = longitudTabla - 1; i > 0; i--) {
     tabla.deleteRow(i);
@@ -339,7 +364,7 @@ function iniciar() {
   // un menu determinado.
 
   // Menu abrir caja, cuando aparece, ejecuta la funcion para ocultar el boton "Cerrar caja"
-  let menuAbrirCaja = new menu("cajaM", "cerrarCajaB", null, null, function () {
+  let menuAbrirCaja = new menu("cajaM", "cerrarCajaB", null, null, function() {
     document.getElementById("cerrarCajaB").style.display = "none";
     document.getElementById("informacionS").style.display = "none";
     reiniciarCaja();
@@ -378,10 +403,10 @@ function iniciar() {
   });
 
   let menuDialogo = new menu("dialogoM", "pagarB", menuVenta, "volverB", () => {
-    let saldo = document.getElementById("pagarI").value;
+    let saldo = pagarI.value;
     let total = document
       .getElementById("total")
-      .innerText.replace("Total:", "");
+      .innerText.replace("Monto Total:", "");
     total = total.replace("Bs.", "");
     if (parseFloat(total) > parseFloat(saldo)) {
       document.getElementById("confirmarM").style.display = "none";
@@ -394,12 +419,12 @@ function iniciar() {
   document.getElementById("volverB2").addEventListener("click", () => {
     menuVenta.mostrar();
   });
-  document.getElementById("pagarI").addEventListener("keyup", () => {
-    let saldo = document.getElementById("pagarI").value;
+  document.getElementById("pagarI").addEventListener("input", () => {
+    let saldo = pagarI.value;
     let botonPagar = document.getElementById("pagarB");
     let total = document
       .getElementById("total")
-      .innerText.replace("Total:", "");
+      .innerText.replace("Monto Total:", "");
     total = total.replace("Bs.", "");
     if (!(isNaN(saldo) || saldo == "" || saldo == 0) && parseFloat(total) > 0) {
       botonPagar.style.display = "flex";
@@ -423,6 +448,8 @@ function iniciar() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
+  pagarI = document.getElementById("pagarI");
+  tabla = document.getElementById("tablaProductos");
   iniciar();
 });
