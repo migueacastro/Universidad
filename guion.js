@@ -106,13 +106,18 @@ listaCategorias = [
 // Actualiza la tabla de acumulados
 function actualizarCaja() {
   for (let i = 0; i < listaCategorias.length; i++) {
+    // Sumar acumulado en ventas a la categoria dentro de la lista de categorias
     document.getElementById("acumulado" + listaCategorias[i].letra).innerText =
       parseFloat(listaCategorias[i].acumulado).toFixed(2) + "Bs.";
+    
+    // Sumar cantidades vendidas a la categoria dentro de la lista de categorias
     document.getElementById("cantidad" + listaCategorias[i].letra).innerText =
       listaCategorias[i].cantidad;
   }
+  // Calcular acumulado
   document.getElementById("acumuladoT").innerText =
     parseFloat(totalVendido).toFixed(2) + "Bs.";
+  // Calcular total
   document.getElementById("cantidadT").innerText = cantidadVendida;
 }
 
@@ -129,7 +134,7 @@ function actualizarTotal() {
     impuestos = 0,
     base = 0;
   for (let i = 0; i < tabla.rows.length - 1; i++) {
-    // Recuperar valores
+    // Recuperar valores de las filas 
     let categoria = document.getElementById("categoria" + i).value;
     let subtotal = document.getElementById("subtotal" + i).innerText;
     let cantidad = document.getElementById("cantidad" + i).value;
@@ -147,7 +152,7 @@ function actualizarTotal() {
     productos += parseInt(cantidad);
     clienteActual.forEach(objeto => {
       if (objeto.letra == categoria) {
-        // Actualizar acumuladores de el cliente actual
+        // Actualizar acumuladores de el Objeto de cliente actual
         objeto.acumulado += parseFloat(subtotal);
         objeto.cantidad += parseInt(cantidad);
       }
@@ -156,19 +161,28 @@ function actualizarTotal() {
   // Actualizar valores de el menu de confirmar compra
   let saldo = parseFloat(document.getElementById("pagarI").value).toFixed(2);
   let vuelto = parseFloat(saldo - total).toFixed(2);
+
+  // Monto total en Menu de compra y en Menu de confirmar
   document.getElementById("total").innerText =
     "Monto Total: " + total.toFixed(2) + "Bs.";
-  document.getElementById("productos").innerText = "Productos: " + productos;
   document.getElementById("totalC").innerText =
-    "Monto Total: " + total.toFixed(2) + "Bs.";
+  "Monto Total: " + total.toFixed(2) + "Bs.";
+
+  // Cantidad de productos en Menu de compra y en Menu de confirmar
+  document.getElementById("productos").innerText = "Productos: " + productos;
   document.getElementById("productosC").innerText = "Productos: " + productos;
+
+  // Saldo y vuelto en Menu de compra y en Menu de confirmar
   document.getElementById("saldoC").innerText = "Saldo: " + saldo + "Bs.";
   document.getElementById("vueltoC").innerText = "Vuelto: " + vuelto + "Bs.";
+
+  // Impuestos en Menu de compra y en Menu de confirmar 
   document.getElementById("impuestosC").innerText =
     "Impuestos: " + impuestos.toFixed(2) + "Bs.";
   document.getElementById("impuestos").innerText =
     "Impuestos: " + impuestos.toFixed(2) + "Bs.";
-  document.getElementById("baseC").innerText =
+  // Monto base en Menu de compra y confirmar 
+    document.getElementById("baseC").innerText =
     "Monto Base: " + base.toFixed(2) + "Bs.";
   document.getElementById("base").innerText =
     "Monto Base: " + base.toFixed(2) + "Bs.";
@@ -287,7 +301,6 @@ function agregarFila() {
 
       // Agregar elemetos a la fila
       celda1.appendChild(precio);
-      celda1.appen
       celda2.appendChild(cantidad);
       celda3.appendChild(categoria);
       celda4.innerText = "0Bs";
@@ -383,7 +396,9 @@ function iniciar() {
     }
   );
 
+  
   document.getElementById("irInicioB").addEventListener("click", () => {
+    // Al volver a inicio, ejecutar las siguientes funciones
     menuInicio.mostrar();
     reiniciarTabla();
     reiniciarCliente();
@@ -404,10 +419,13 @@ function iniciar() {
 
   let menuDialogo = new menu("dialogoM", "pagarB", menuVenta, "volverB", () => {
     let saldo = pagarI.value;
+    // Obtener el valor del total
     let total = document
       .getElementById("total")
       .innerText.replace("Monto Total:", "");
+    // Extraer el valor flotante del monto total.
     total = total.replace("Bs.", "");
+    // Verificar si el saldo es valido, mostrar el boton de confirmar si es asi.
     if (parseFloat(total) > parseFloat(saldo)) {
       document.getElementById("confirmarM").style.display = "none";
       document.getElementById("saldoInsuficienteM").style.display = "flex";
@@ -420,12 +438,14 @@ function iniciar() {
     menuVenta.mostrar();
   });
   document.getElementById("pagarI").addEventListener("input", () => {
+    // Al llenar el input de Saldo.
     let saldo = pagarI.value;
     let botonPagar = document.getElementById("pagarB");
     let total = document
       .getElementById("total")
       .innerText.replace("Monto Total:", "");
     total = total.replace("Bs.", "");
+    // Validar si el saldo existe en el input, y mostrar el boton de pagar si hay un numero.
     if (!(isNaN(saldo) || saldo == "" || saldo == 0) && parseFloat(total) > 0) {
       botonPagar.style.display = "flex";
     } else {
@@ -438,6 +458,7 @@ function iniciar() {
   });
 
   document.getElementById("confirmarB").addEventListener("click", () => {
+    // Al confirmar la compra
     document.getElementById("confirmarM").style.display = "none";
     document.getElementById("saldoInsuficienteM").style.display = "none";
     pagar();
@@ -448,7 +469,9 @@ function iniciar() {
   });
 }
 
+
 document.addEventListener("DOMContentLoaded", function() {
+  // Luego de iniciar el Document Object Model
   pagarI = document.getElementById("pagarI");
   tabla = document.getElementById("tablaProductos");
   iniciar();
