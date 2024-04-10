@@ -311,7 +311,7 @@ function agregarFila() {
 }
 function eliminarFila(elemento) {
   // Boton --> Celda --> Fila
-  let longitudTabla = tabla.length;
+  let longitudTabla = tabla.rows.length;
   let fila = elemento.parentNode.parentNode;
   let posicion;
   // Acceder a la tabla y eliminar el hijo que sea esta fila
@@ -446,7 +446,7 @@ function iniciar() {
       .innerText.replace("Monto Total:", "");
     total = total.replace("Bs.", "");
     // Validar si el saldo existe en el input, y mostrar el boton de pagar si hay un numero.
-    if (!(isNaN(saldo) || saldo == "" || saldo == 0) && parseFloat(total) > 0) {
+    if (!(isNaN(saldo) || saldo == "" || saldo == 0) && parseFloat(total) > 0 && parseFloat(pagarI.value) >= 0) {
       botonPagar.style.display = "flex";
     } else {
       botonPagar.style.display = "none";
@@ -468,7 +468,6 @@ function iniciar() {
     menuInicio.mostrar();
   });
 }
-
 
 document.addEventListener("DOMContentLoaded", function() {
   // Luego de iniciar el Document Object Model
